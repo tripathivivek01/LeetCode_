@@ -2,7 +2,6 @@ class Solution {
     public String findLexSmallestString(String s, int a, int b) {
         String y = s;
         int n = s.length();
-
         int rot = 0;
         do {
             String rotated = rotateRight(s, rot);
