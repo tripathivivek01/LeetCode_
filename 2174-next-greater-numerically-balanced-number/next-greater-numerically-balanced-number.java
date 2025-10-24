@@ -1,27 +1,28 @@
 class Solution {
     public int nextBeautifulNumber(int n) {
-        int current = n + 1;
-        
+        int num = n + 1;
+
         while (true) {
-            if (isBalanced(current)) {
-                return current;
-            }
-            current++;
+            if (isBalanced(num)) return num;
+            num++;
         }
     }
+
     private boolean isBalanced(int num) {
-        String s = Integer.toString(num);
         int[] count = new int[10];
-        for (char ch : s.toCharArray()) {
-            count[ch - '0']++;
+
+        int temp = num;
+        while (temp > 0) {
+            int digit = temp % 10;
+            count[digit]++;
+            temp /= 10;
         }
-        for (char ch : s.toCharArray()) {
-            int digit = ch - '0';
-            if (count[digit] != digit) {
+
+        for (int d = 0; d <= 9; d++) {
+            if (count[d] > 0 && count[d] != d) {
                 return false;
             }
         }
-        
         return true;
     }
 }
