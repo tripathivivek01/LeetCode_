@@ -3,25 +3,43 @@ class Solution {
         int[][] grid = new int[m][n];
         for (int[] g : guards) grid[g[0]][g[1]] = 1;
         for (int[] w : walls) grid[w[0]][w[1]] = 2;
-        int[] dr = {-1, 0, 1, 0};
-        int[] dc = {0, 1, 0, -1};
-        for (int[] g : guards) {
-            for (int d = 0; d < 4; d++) {
-                int r = g[0], c = g[1];
-                while (true) {
-                    r += dr[d]; c += dc[d];
-                    if (r < 0 || r >= m || c < 0 || c >= n) break;
-                    if (grid[r][c] == 1 || grid[r][c] == 2) break; 
-                    if (grid[r][c] == 0) grid[r][c] = 3; 
-                }
-            }
-        }
-        int ans = 0;
         for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 0) ans++;
+            boolean seen = false;
+            for (int j = 0; j < n; j++) { 
+                if (grid[i][j] == 1) seen = true;
+                else if (grid[i][j] == 2) seen = false;
+                else if (seen) grid[i][j] = 3;
+            }
+
+            seen = false;
+            for (int j = n - 1; j >= 0; j--) { 
+                if (grid[i][j] == 1) seen = true;
+                else if (grid[i][j] == 2) seen = false;
+                else if (seen) grid[i][j] = 3;
             }
         }
-        return ans;
+        for (int j = 0; j < n; j++) {
+            boolean seen = false;
+            for (int i = 0; i < m; i++) { 
+                if (grid[i][j] == 1) seen = true;
+                else if (grid[i][j] == 2) seen = false;
+                else if (seen) grid[i][j] = 3;
+            }
+
+            seen = false;
+            for (int i = m - 1; i >= 0; i--) { 
+                if (grid[i][j] == 1) seen = true;
+                else if (grid[i][j] == 2) seen = false;
+                else if (seen) grid[i][j] = 3;
+            }
+        }
+
+        int count = 0;
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                if (grid[i][j] == 0)
+                    count++;
+
+        return count;
     }
 }
